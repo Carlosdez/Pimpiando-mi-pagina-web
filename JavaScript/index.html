@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Globos La Fiesta - Venta y decoración de globos para toda ocasión.">
+  <title>Globos La Fiesta</title>
+
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Leaflet para mapa -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    :root {
+      --color-primario: #e63946;
+      --color-secundario: #f1faee;
+      --color-acento: #457b9d;
+      --color-texto: #1d3557;
+      --font-base: 'Segoe UI', Tahoma, sans-serif;
+      --size-titulo: 2rem;
+      --size-subtitulo: 1.25rem;
+      --size-texto: 1rem;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-base); background: var(--color-secundario); color: var(--color-texto); line-height: 1.6; }
+    h1, h2, h3 { margin-bottom: 0.5rem; }
+    h1 { font-size: var(--size-titulo); }
+    h2 { font-size: var(--size-subtitulo); color: var(--color-primario); }
+    a { color: var(--color-acento); text-decoration: none; transition: color 0.3s; }
+    a:hover { color: var(--color-primario); }
+
+    header {
+      background: var(--color-primario);
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    header img {
+      width: 150px;
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      animation: fadeBounce 1.5s ease-in-out;
+    }
+
+    @keyframes fadeBounce {
+      0% { opacity: 0; transform: translateY(-20px); }
+      50% { opacity: 0.7; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .productos { padding: 2rem 1rem; display: grid; gap: 1rem; }
+    .productos img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
+    }
+    .productos img:hover { transform: scale(1.05); }
+
+    @media (min-width: 768px) { .productos { grid-template-columns: repeat(3, 1fr); } }
+
+    button, .btn {
+      display: inline-block;
+      background: var(--color-acento);
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover { background: var(--color-primario); transform: translateY(-2px); }
+
+    form {
+      background: white;
+      padding: 1.5rem;
+      max-width: 500px;
+      margin: 2rem auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    form label { font-weight: bold; display: block; margin: 0.5rem 0 0.2rem; }
+    form input, form textarea, select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .contador {
+      text-align: center;
+      font-size: 1.25rem;
+      margin: 2rem 0;
+      font-weight: bold;
+      color: var(--color-acento);
+    }
+
+    footer { background: var(--color-primario); color: white; text-align: center; padding: 1rem; margin-top: 2rem; }
+    #lista-pedidos { max-width: 500px; margin: 1rem auto; padding: 1rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
+    #mapa { height: 400px; width: 100%; max-width: 800px; margin: 2rem auto; border-radius: 12px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); }
+
+    .redes {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .redes a {
+      color: var(--color-texto);
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    .redes a:hover { transform: scale(1.2); }
+    .redes a[aria-label="Facebook"]:hover { color: #1877f2; }
+    .redes a[aria-label="Instagram"]:hover { color: #e4405f; }
+    .redes a[aria-label="WhatsApp"]:hover { color: #25D366; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Fotologo.jpeg" alt="Logo de Globos La Fiesta">
+    <h1>Globos "La Fiesta"</h1>
+    <h3>"Llenamos tus momentos de color y alegría"</h3>
+  </header>
+
+  <main id="contenido">
+    <section>
+      <h2>Nuestros Productos</h2>
+      <div class="productos">
+        <img src="Tienda-London.jpg" alt="Foto de la tienda con globos decorativos">
+        <img src="Globos-Arreglos.jpg" alt="Arreglos de globos de colores">
+        <img src="Globos-Cumpleaños.jpg" alt="Decoración con globos para cumpleaños">
+        <img src="diseñosdeglobos.jpg" alt="Diseños de globos caricaturescos">
+        <img src="Cumpleaños.jpg" alt="Arreglos de globos para fiestas de cumpleaños">
+      </div>
+    </section>
+
+    <div class="contador">
+      Hemos decorado a <span id="contador">0</span> fiestas este mes 🎉
+    </div>
+
+    <section>
+      <h2>Haz tu pedido</h2>
+      <form id="pedidoForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" required>
+        <label for="mensaje">Escribe tu pedido o consulta:</label>
+        <textarea id="mensaje" rows="5" required></textarea>
+
+        <label for="tipo">Selecciona un tipo de globo:</label>
+        <select id="tipo">
+          <option value="metalico">Metálico</option>
+          <option value="helio">Helio</option>
+          <option value="personalizado">Personalizado</option>
+          <option value="decorativo">Decorativo</option>
+        </select>
+
+        <button type="submit">Enviar Pedido</button>
+      </form>
+
+      <div id="lista-pedidos">
+        <h3>📋 Pedidos guardados:</h3>
+        <ul id="pedidos"></ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Contáctanos</h2>
+      <p>Síguenos en nuestras redes o escríbenos por WhatsApp:</p>
+      <div class="redes">
+        <a href="https://www.facebook.com/DobleRComercial/?locale=es_LA" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook fa-2x"></i>
+        </a>
+        <a href="https://www.instagram.com/doblercomercialrd/?hl=es" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram fa-2x"></i>
+        </a>
+        <a href="https://wa.me/18096823049" target="_blank" aria-label="WhatsApp">
+          <i class="fab fa-whatsapp fa-2x"></i>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Encuéntranos</h2>
+      <div id="mapa"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Globos La Fiesta - Todos los derechos reservados</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
